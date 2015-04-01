@@ -6,27 +6,27 @@ public class Temp {
 	public static void main(String[] args) {
 		DPDA dpda = new DPDA();
 		State state = new State();
-		Transition transition = new Transition('R', DPDA.empty_stack,
-				DPDA.empty_stack, state);
+		Transition transition = new Transition('R', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state);
 		state.transitions.add(transition);
 		dpda.states.add(state);
 		state.flip();
 		State state2 = new State();
 		dpda.states.add(state2);
-		state.transitions.add(new Transition('T', DPDA.empty_stack,
-				DPDA.empty_stack, state));
-		state.transitions.add(new Transition('S', DPDA.empty_stack,
-				DPDA.empty_stack, state2));
-		state.transitions.add(new Transition('P', DPDA.empty_stack,
-				DPDA.empty_stack, state2));
-		state2.transitions.add(new Transition('R', DPDA.empty_stack,
-				DPDA.empty_stack, state));
-		state2.transitions.add(new Transition('T', DPDA.empty_stack,
-				DPDA.empty_stack, state));
-		state2.transitions.add(new Transition('S', DPDA.empty_stack,
-				DPDA.empty_stack, state2));
-		state2.transitions.add(new Transition('P', DPDA.empty_stack,
-				DPDA.empty_stack, state2));
+		state.transitions.add(new Transition('T', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state));
+		state.transitions.add(new Transition('S', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state2));
+		state.transitions.add(new Transition('P', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state2));
+		state2.transitions.add(new Transition('R', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state));
+		state2.transitions.add(new Transition('T', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state));
+		state2.transitions.add(new Transition('S', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state2));
+		state2.transitions.add(new Transition('P', DPDA.EMPTY_STACK,
+				DPDA.EMPTY_STACK, state2));
 		System.out.println("Default");
 		System.out.println(dpda.currentAction());
 		dpda.next(Action.COOPERATE, Action.COOPERATE);

@@ -8,17 +8,33 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
 public class DPDA implements Agent, RepeatedStrategy {
+
 	// TODO: Define behaviour in null cases
 
-	// TODO: copy mechanism: ensure hash preservation
-	static char empty_input = 'l';
-	static int empty_stack = -1;
-	static int stack_marker = -2;
-	static int[] stack_alphabet = { 0, empty_stack };
-	static char[] input_alphabet = { 'R', 'T', 'S', 'P', empty_input };
-	State currentState;
-	ArrayList<State> states = new ArrayList<State>();
-	Stack<Integer> stack = new Stack<Integer>();
+	static int MAX_PATH_SIZE = 10;
+	
+	static int EMPTY_STACK = -1;
+
+	static int[] STACK_ALPHABET = { 0, EMPTY_STACK };
+
+	static char EMPTY_INPUT = 'l';
+	static char R = 'R';
+	static char S = 'S';
+	static char T = 'T';
+	static char P = 'P';
+	static char[] INPUT_ALPHABET = { R, T, S, P, EMPTY_INPUT };
+
+	private State currentState;
+
+	/**
+	 * @return the states
+	 */
+	public ArrayList<State> getStates() {
+		return states;
+	}
+
+	private ArrayList<State> states = new ArrayList<State>();
+	private Stack<Integer> stack = new Stack<Integer>();
 
 	public State getCurrentState() {
 		if (currentState != null) {
@@ -39,45 +55,35 @@ public class DPDA implements Agent, RepeatedStrategy {
 		}
 	}
 
+	
+	/**
+	 * This method updates the current state based on the input actions.
+	 */
 	public void next(Action focal, Action other) {
+		
 		if (currentState == null) {
-			return;
+			throw new RuntimeException("This is a problem!");
 		}
-		char input;
-		if (focal == Action.DEFECT) {
-			if (other == Action.DEFECT) {
-				input = 'P';
-			} else {
-				input = 'T';
-			}
-		} else {
-			if (other == Action.DEFECT) {
-				input = 'S';
-			} else {
-				input = 'R';
-			}
-		}
-		boolean has_read = false;
-		int max_path = 10;
+
+		// Determine from actions what the input string is
+		char historyMove = determineHistoryMove(focal, other);
+		boolean hasExhaustedInputString = false;
 		int path_size = 0;
-		while (true) {
-			if (path_size > max_path) {
-				System.out.println("DPDA appeared not to halt");
-				return;
-			}
+		while (path_size < MAX_PATH_SIZE) {
+			
 			path_size++;
 
 			// TODO: verify one valid transition
 			Transition transition;
 			// TODO: define stack behavior clearly. Is stack marker enforced?
 			if (stack.isEmpty()) {
-				transition = currentState.valid_transition(input,
-						DPDA.empty_stack);
+				transition = currentState.validTransition(historyMove,
+						DPDA.EMPTY_STACK);
 			} else {
-				transition = currentState.valid_transition(input, stack.peek());
+				transition = currentState.validTransition(historyMove, stack.peek());
 			}
 			if (transition == null) {
-				if (!has_read) {
+				if (!hasExhaustedInputString) {
 					// Did not consume input
 					// Should never occur (IF we force to always have a
 					// transition)
@@ -87,13 +93,13 @@ public class DPDA implements Agent, RepeatedStrategy {
 				return;
 			}
 			// Transition valid, follow it
-			if (transition.read != DPDA.empty_input) {
+			if (transition.read != DPDA.EMPTY_INPUT) {
 				// Consume input
-				input = DPDA.empty_input;
-				has_read = true;
+				historyMove = DPDA.EMPTY_INPUT;
+				hasExhaustedInputString = true;
 			}
 			currentState = transition.destination;
-			if (has_read) {
+			if (hasExhaustedInputString) {
 				// If we have consumed input we only need to find an
 				// accepting configuration then we stop
 				if (currentState.currentAction() == Action.COOPERATE) {
@@ -101,13 +107,84 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
+		throw new RuntimeException("Max path exceeded - halting issue?");
+	}
 
+	private char determineHistoryMove(Action focal, Action other) {
+		if (focal == Action.DEFECT && other == Action.DEFECT) {
+			return P;
+		} else if (focal == Action.DEFECT && other == Action.COOPERATE) {
+			return T;
+		} else if (focal == Action.COOPERATE && other == Action.DEFECT) {
+			return S;
+		} else if (focal == Action.COOPERATE && other == Action.COOPERATE) {
+			return R;
+		} else {
+			throw new RuntimeException("This is a problem!");
+		}
 	}
 
 	public void reset() {
 		stack.clear();
 		currentState = null;
 		currentState = getCurrentState();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((currentState == null) ? 0 : currentState.hashCode());
+		result = prime * result + ((stack == null) ? 0 : stack.hashCode());
+		result = prime * result + ((states == null) ? 0 : states.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DPDA)) {
+			return false;
+		}
+		DPDA other = (DPDA) obj;
+		if (currentState == null) {
+			if (other.currentState != null) {
+				return false;
+			}
+		} else if (!currentState.equals(other.currentState)) {
+			return false;
+		}
+		if (stack == null) {
+			if (other.stack != null) {
+				return false;
+			}
+		} else if (!stack.equals(other.stack)) {
+			return false;
+		}
+		if (states == null) {
+			if (other.states != null) {
+				return false;
+			}
+		} else if (!states.equals(other.states)) {
+			return false;
+		}
+		return true;
 	}
 
 }

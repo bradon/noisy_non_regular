@@ -27,11 +27,11 @@ public class DPDAMutator implements AgentMutator {
 		// Add a state to the DPDA and make it reachable
 		// TODO: Random should use the seeded random method
 		State newState = new State();
-		dpda.states.add(newState);
-		int random_state_index = Random.nextInt(dpda.states.size());
+		dpda.getStates().add(newState);
+		int random_state_index = Random.nextInt(dpda.getStates().size());
 		int random_transition_index = Random.nextInt(dpda.states
 				.get(random_state_index).transitions.size());
-		dpda.states.get(random_state_index).transitions
+		dpda.getStates().get(random_state_index).transitions
 				.get(random_transition_index).destination = newState;
 
 		// TODO: generate random deterministic transitions
@@ -40,18 +40,18 @@ public class DPDAMutator implements AgentMutator {
 		// First: Does it read?
 		if (Random.nextBoolean()) {
 			// Reads - Generate for all 4 read cases
-			for (char input : DPDA.input_alphabet) {
-				if (input != DPDA.empty_input) {
+			for (char input : DPDA.INPUT_ALPHABET) {
+				if (input != DPDA.EMPTY_INPUT) {
 
 					if (Random.nextBoolean()) {
 						// Pops
-						for (int pop : DPDA.stack_alphabet) {
-							if (pop != DPDA.empty_stack) {
+						for (int pop : DPDA.STACK_ALPHABET) {
+							if (pop != DPDA.EMPTY_STACK) {
 								// Add transition
 								int newDestination = Random.nextInt(dpda.states
 										.size());
-								int newPush = DPDA.stack_alphabet[Random
-										.nextInt(DPDA.stack_alphabet.length)];
+								int newPush = DPDA.STACK_ALPHABET[Random
+										.nextInt(DPDA.STACK_ALPHABET.length)];
 								Transition newTransition = new Transition(
 										input, pop, newPush,
 										dpda.states.get(newDestination));
@@ -62,10 +62,10 @@ public class DPDAMutator implements AgentMutator {
 						// Does not pop
 						// Add transition
 						int newDestination = Random.nextInt(dpda.states.size());
-						int newPush = DPDA.stack_alphabet[Random
-								.nextInt(DPDA.stack_alphabet.length)];
+						int newPush = DPDA.STACK_ALPHABET[Random
+								.nextInt(DPDA.STACK_ALPHABET.length)];
 						Transition newTransition = new Transition(input,
-								DPDA.empty_stack, newPush,
+								DPDA.EMPTY_STACK, newPush,
 								dpda.states.get(newDestination));
 						newState.transitions.add(newTransition);
 					}
@@ -77,14 +77,14 @@ public class DPDAMutator implements AgentMutator {
 			// Does not read
 			if (Random.nextBoolean()) {
 				// Pops
-				for (int pop : DPDA.stack_alphabet) {
-					if (pop != DPDA.empty_stack) {
+				for (int pop : DPDA.STACK_ALPHABET) {
+					if (pop != DPDA.EMPTY_STACK) {
 						// Add transition
 						int newDestination = Random.nextInt(dpda.states.size());
-						int newPush = DPDA.stack_alphabet[Random
-								.nextInt(DPDA.stack_alphabet.length)];
+						int newPush = DPDA.STACK_ALPHABET[Random
+								.nextInt(DPDA.STACK_ALPHABET.length)];
 						Transition newTransition = new Transition(
-								DPDA.empty_input, pop, newPush,
+								DPDA.EMPTY_INPUT, pop, newPush,
 								dpda.states.get(newDestination));
 						newState.transitions.add(newTransition);
 					}
@@ -93,10 +93,10 @@ public class DPDAMutator implements AgentMutator {
 				// Does not pop
 				// Add transition
 				int newDestination = Random.nextInt(dpda.states.size());
-				int newPush = DPDA.stack_alphabet[Random
-						.nextInt(DPDA.stack_alphabet.length)];
-				Transition newTransition = new Transition(DPDA.empty_input,
-						DPDA.empty_stack, newPush,
+				int newPush = DPDA.STACK_ALPHABET[Random
+						.nextInt(DPDA.STACK_ALPHABET.length)];
+				Transition newTransition = new Transition(DPDA.EMPTY_INPUT,
+						DPDA.EMPTY_STACK, newPush,
 						dpda.states.get(newDestination));
 				newState.transitions.add(newTransition);
 			}
@@ -147,8 +147,8 @@ public class DPDAMutator implements AgentMutator {
 			} else {
 				// Switch push
 				// Self mutation possible (no change)
-				transition.push = DPDA.stack_alphabet[Random
-						.nextInt(DPDA.stack_alphabet.length)];
+				transition.push = DPDA.STACK_ALPHABET[Random
+						.nextInt(DPDA.STACK_ALPHABET.length)];
 			}
 		}
 	}
