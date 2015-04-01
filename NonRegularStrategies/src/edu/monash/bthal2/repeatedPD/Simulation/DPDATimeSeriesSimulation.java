@@ -13,8 +13,8 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
-import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
+import edu.monash.bthal2.repeatedPD.newDPDA.DPDAFactory;
+import edu.monash.bthal2.repeatedPD.newDPDA.DPDAMutator;
 
 public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 	protected double flipMachineResultProbability; // change C on accept or D on
@@ -29,18 +29,14 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 	protected double changeDestinationProbability;
 	protected double flipState;
 	protected double mutationProbabilityPerState;
-	private static boolean neutralPopulation = false;
-
+	
 	public void init() {
 		// Refactor- some of this code can be generalized
 		//this.factory = new RepeatedStrategyPopulationFactory(populationSize,
 			//	DPDAFactory.ExampleStrategies.allD());
 		this.factory= new DPDAFactory(populationSize);
 
-		if (neutralPopulation) {
-			((DPDAFactory) this.factory).setNeutralPopulation();
-		}
-
+		
 		// Will need mutation parameters
 		// mutationProbabilityPerState, addingStatesProbability,
 		// removingStatesProbability, addTransitionProbability,
@@ -74,7 +70,6 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDATimeSeriesSimulation sim = gson.fromJson(json,
 				DPDATimeSeriesSimulation.class);
-		neutralPopulation = setNeutralPopulation;
 		sim.init();
 		return sim;
 	}

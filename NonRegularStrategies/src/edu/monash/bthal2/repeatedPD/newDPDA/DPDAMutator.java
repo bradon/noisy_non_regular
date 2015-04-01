@@ -6,6 +6,16 @@ import com.evolutionandgames.jevodyn.utils.Random;
 
 public class DPDAMutator implements AgentMutator {
 
+	public DPDAMutator(double mutationProbabilityPerState,
+			double addStatesProbability, double removeStatesProbability,
+			double addTransitionProbability,
+			double removeTransitionProbability, double changeReadProbability,
+			double changePopProbability, double changePushProbability,
+			double changeDestinationProbability, double flipState,
+			double flipMachineResultProbability) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Agent mutate(Agent arg0) {
 		// Build a mutation chain
 

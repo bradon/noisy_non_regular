@@ -8,8 +8,6 @@ import com.beust.jcommander.ParameterException;
 
 import edu.monash.bthal2.repeatedPD.Simulation.DPDAPayoffSimulation;
 import edu.monash.bthal2.repeatedPD.Simulation.DPDATimeSeriesSimulation;
-import edu.monash.bthal2.repeatedPD.Simulation.LookupPlayerLengthOnePayoffSimulation;
-import edu.monash.bthal2.repeatedPD.Simulation.LookupPlayerLengthOneTimeSeries;
 
 /**
  * Initializing class for running as jar
@@ -48,23 +46,6 @@ public class App {
 		}
 
 		switch (app.type) {
-		case LOOKUPPAYOFF:
-			if (showJson) {
-				System.out.println(LookupPlayerLengthOnePayoffSimulation
-						.exampleJson());
-			} else {
-				LookupPlayerLengthOnePayoffSimulation
-						.runWithSimpleOutput(app.file);
-			}
-			break;
-		case LOOKUPTIMESERIES:
-			if (showJson) {
-				System.out.println(LookupPlayerLengthOneTimeSeries
-						.exampleJson());
-			} else {
-				LookupPlayerLengthOneTimeSeries.runApp(app.file);
-			}
-			break;
 		case PAYOFF:
 		case DPDAPAYOFF:
 			if (showJson) {

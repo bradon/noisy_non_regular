@@ -14,9 +14,9 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import edu.monash.bthal2.repeatedPD.DPDA.DPDA;
-import edu.monash.bthal2.repeatedPD.DPDA.DPDAFactory;
-import edu.monash.bthal2.repeatedPD.DPDA.DPDAMutator;
+import edu.monash.bthal2.repeatedPD.newDPDA.DPDA;
+import edu.monash.bthal2.repeatedPD.newDPDA.DPDAFactory;
+import edu.monash.bthal2.repeatedPD.newDPDA.DPDAMutator;
 
 public class DPDAPayoffSimulation extends PayoffSimulation {
 	protected double flipMachineResultProbability; // change C on accept or D on
@@ -31,8 +31,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 	protected double changeDestinationProbability;
 	protected double flipState;
 	protected double mutationProbabilityPerState;
-	private static boolean neutralPopulation = false;
-
+	
 	public double numericalRunOnce(String filename) throws IOException {
 		DPDAPayoffSimulation app = DPDAPayoffSimulation.loadFromFile(filename);
 		double totalPayoff = app.simulation.estimateTotalPayoff(
@@ -45,7 +44,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		for (int i = 0; i < 10; i++) {
 			DPDA test = (DPDA) app.process.getPopulation().getAgent(
 					Random.nextInt(app.populationSize));
-			test.printStrategy();
+			System.out.println(test.toString());
 		}
 		return averageTotalPayoff;
 	}
@@ -80,7 +79,6 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		String json = Files.toString(file, Charsets.UTF_8);
 		DPDAPayoffSimulation sim = gson.fromJson(json,
 				DPDAPayoffSimulation.class);
-		neutralPopulation = setNeutralPopulation;
 		sim.init();
 		return sim;
 	}
@@ -112,10 +110,7 @@ public class DPDAPayoffSimulation extends PayoffSimulation {
 		//this.factory = new RepeatedStrategyPopulationFactory(populationSize,
 				//DPDAFactory.ExampleStrategies.allD());
 		this.factory=new DPDAFactory(populationSize);
-		if (neutralPopulation) {
-			((DPDAFactory) this.factory).setNeutralPopulation();
-		}
-
+		
 		// Will need mutation parameters
 		this.mutator = new DPDAMutator(mutationProbabilityPerState,
 				addStatesProbability, removeStatesProbability,
