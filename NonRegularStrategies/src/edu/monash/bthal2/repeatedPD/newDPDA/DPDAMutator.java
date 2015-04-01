@@ -26,6 +26,18 @@ public class DPDAMutator implements AgentMutator {
 				.get(random_transition_index).destination = newState;
 
 		// TODO: generate random deterministic transitions
+
+		// TODO: Probabilities
+		// First: Does it read?
+		if (Random.nextBoolean()) {
+			// Reads
+
+			// Second: Pops/Does not Pop
+		} else {
+			// Does not read
+
+			// Second Pops/Does not Pop
+		}
 	}
 
 	public void removeState(DPDA dpda) {
@@ -51,5 +63,29 @@ public class DPDAMutator implements AgentMutator {
 		// 'Better?' version: take existing transitions, change all factors
 		// randomly
 		// while maintaining determinisim
+
+		// Change types: Flip state, change push, change destination
+		int random_state_index = Random.nextInt(dpda.states.size());
+		State random_state = dpda.states.get(random_state_index);
+		// Chance of flip, transition change
+		// Select uniformly? Probably harder to analyse?
+		int random_change = Random.nextInt(random_state.transitions.size() + 1);
+		if (random_change == random_state.transitions.size()) {
+			// 1/transitions+1 chance of flip
+			random_state.flip();
+		} else {
+			Transition transition = random_state.transitions.get(random_change);
+			if (Random.nextBoolean()) {
+				// Switch destination
+				// Self mutation possible (no change)
+				transition.destination = dpda.states.get(Random
+						.nextInt(dpda.states.size()));
+			} else {
+				// Switch push
+				// Self mutation possible (no change)
+				transition.push = DPDA.stack_alphabet[Random
+						.nextInt(DPDA.stack_alphabet.length)];
+			}
+		}
 	}
 }
