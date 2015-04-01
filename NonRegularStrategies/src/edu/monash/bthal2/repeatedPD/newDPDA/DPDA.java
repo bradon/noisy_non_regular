@@ -9,6 +9,8 @@ import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
 public class DPDA implements Agent, RepeatedStrategy {
 	// TODO: Define behaviour in null cases
+
+	// TODO: copy mechanism: ensure hash preservation
 	static char empty_input = 'l';
 	static int empty_stack = -1;
 	static int stack_marker = -2;
