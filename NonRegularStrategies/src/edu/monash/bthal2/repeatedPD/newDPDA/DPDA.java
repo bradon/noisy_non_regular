@@ -14,7 +14,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 	static char empty_input = 'l';
 	static int empty_stack = -1;
 	static int stack_marker = -2;
+	static char empty_read = 'l';
 	static int[] stack_alphabet = { 0, empty_stack };
+	static char[] input_alphabet = { 'R', 'T', 'S', 'P', empty_read };
 	State currentState;
 	ArrayList<State> states = new ArrayList<State>();
 	Stack<Integer> stack = new Stack<Integer>();

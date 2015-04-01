@@ -30,7 +30,31 @@ public class DPDAMutator implements AgentMutator {
 		// TODO: Probabilities
 		// First: Does it read?
 		if (Random.nextBoolean()) {
-			// Reads
+			// Reads - Generate for all 4 read cases
+			for (char input : DPDA.input_alphabet) {
+				if (input != DPDA.empty_input) {
+
+					if (Random.nextBoolean()) {
+						// Pops
+						for (int pop : DPDA.stack_alphabet) {
+							if (pop != DPDA.empty_stack) {
+								// Add transition
+								int newDestination = Random.nextInt(dpda.states
+										.size());
+								int newPush = DPDA.stack_alphabet[Random
+										.nextInt(DPDA.stack_alphabet.length)];
+								Transition newTransition = new Transition(
+										input, pop, newPush,
+										dpda.states.get(newDestination));
+								newState.transitions.add(newTransition);
+							}
+						}
+					} else {
+						// Does not pop
+					}
+
+				}
+			}
 
 			// Second: Pops/Does not Pop
 		} else {
