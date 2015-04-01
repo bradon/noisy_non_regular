@@ -17,7 +17,6 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 	// strategy=[initial, respond to c, respond to d]
 	private Action[] strategy = new Action[3];
 
-	@Override
 	public void reset() {
 		// Reset so the PD can be played from start again
 		opponentsLastMove = null;
@@ -137,7 +136,6 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 	 * 
 	 * Action to perform based on moves supplied so far
 	 */
-	@Override
 	public Action currentAction() {
 		// [Initial, OnC, OnD]
 		if (opponentsLastMove == null) {
@@ -163,7 +161,6 @@ public class LookupStrategyLengthOne implements Agent, RepeatedStrategy {
 	 * 
 	 * Specify set of moves performed immediately previously
 	 */
-	@Override
 	public void next(Action focal, Action opponent) {
 		opponentsLastMove = opponent;
 	}

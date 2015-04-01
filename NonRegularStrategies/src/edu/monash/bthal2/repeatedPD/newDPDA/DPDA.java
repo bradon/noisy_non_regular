@@ -31,7 +31,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return null;
 	}
 
-	@Override
 	public Action currentAction() {
 		if (getCurrentState() != null) {
 			return getCurrentState().currentAction();
@@ -40,7 +39,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 		}
 	}
 
-	@Override
 	public void next(Action focal, Action other) {
 		if (currentState == null) {
 			return;
@@ -106,7 +104,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	}
 
-	@Override
 	public void reset() {
 		stack.clear();
 		currentState = null;

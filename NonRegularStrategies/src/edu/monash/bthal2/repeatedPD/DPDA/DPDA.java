@@ -256,7 +256,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return states;
 	}
 
-	@Override
 	public void next(Action focal, Action opponent) {
 		try {
 			readInput(opponent);

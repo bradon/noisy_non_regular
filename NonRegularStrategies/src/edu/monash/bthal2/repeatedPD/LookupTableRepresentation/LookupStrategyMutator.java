@@ -13,7 +13,6 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
  */
 public class LookupStrategyMutator implements AgentMutator {
 
-	@Override
 	public Agent mutate(Agent agent) {
 		if (Random.nextDouble() > mutationProbability) {
 			// No mutation

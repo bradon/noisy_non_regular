@@ -8,8 +8,6 @@ import com.evolutionandgames.agentbased.extensive.AgentBasedWrightFisherProcessW
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulation;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGame;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGamePayoffCalculator;
-import com.evolutionandgames.repeatedgames.utils.ExtraMeasuresProcessor;
-import com.evolutionandgames.repeatedgames.utils.RepeatedStrategyPopulationFactory;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.Gson;

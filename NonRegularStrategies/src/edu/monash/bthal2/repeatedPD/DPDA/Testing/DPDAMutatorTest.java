@@ -1,7 +1,5 @@
 package edu.monash.bthal2.repeatedPD.DPDA.Testing;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import com.evolutionandgames.jevodyn.utils.Random;

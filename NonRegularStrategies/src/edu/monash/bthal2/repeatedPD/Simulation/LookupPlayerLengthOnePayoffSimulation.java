@@ -6,7 +6,6 @@ import java.io.IOException;
 import com.evolutionandgames.agentbased.AgentBasedSimulation;
 import com.evolutionandgames.agentbased.extensive.AgentBasedWrightFisherProcessWithAssortment;
 import com.evolutionandgames.agentbased.extensive.ExtensivePopulation;
-import com.evolutionandgames.jevodyn.utils.PayoffToFitnessMapping;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGame;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedGamePayoffCalculator;
 import com.evolutionandgames.repeatedgames.utils.RepeatedStrategyPopulationFactory;
