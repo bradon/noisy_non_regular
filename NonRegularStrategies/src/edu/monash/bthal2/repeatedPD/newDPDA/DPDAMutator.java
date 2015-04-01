@@ -51,16 +51,47 @@ public class DPDAMutator implements AgentMutator {
 						}
 					} else {
 						// Does not pop
+						// Add transition
+						int newDestination = Random.nextInt(dpda.states.size());
+						int newPush = DPDA.stack_alphabet[Random
+								.nextInt(DPDA.stack_alphabet.length)];
+						Transition newTransition = new Transition(input,
+								DPDA.empty_stack, newPush,
+								dpda.states.get(newDestination));
+						newState.transitions.add(newTransition);
 					}
 
 				}
 			}
 
-			// Second: Pops/Does not Pop
 		} else {
 			// Does not read
+			if (Random.nextBoolean()) {
+				// Pops
+				for (int pop : DPDA.stack_alphabet) {
+					if (pop != DPDA.empty_stack) {
+						// Add transition
+						int newDestination = Random.nextInt(dpda.states.size());
+						int newPush = DPDA.stack_alphabet[Random
+								.nextInt(DPDA.stack_alphabet.length)];
+						Transition newTransition = new Transition(
+								DPDA.empty_input, pop, newPush,
+								dpda.states.get(newDestination));
+						newState.transitions.add(newTransition);
+					}
+				}
+			} else {
+				// Does not pop
+				// Add transition
+				int newDestination = Random.nextInt(dpda.states.size());
+				int newPush = DPDA.stack_alphabet[Random
+						.nextInt(DPDA.stack_alphabet.length)];
+				Transition newTransition = new Transition(DPDA.empty_input,
+						DPDA.empty_stack, newPush,
+						dpda.states.get(newDestination));
+				newState.transitions.add(newTransition);
+			}
 
-			// Second Pops/Does not Pop
 		}
 	}
 
