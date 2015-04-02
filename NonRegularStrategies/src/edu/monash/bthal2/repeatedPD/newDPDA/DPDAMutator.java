@@ -1,10 +1,15 @@
 package edu.monash.bthal2.repeatedPD.newDPDA;
 
+import java.util.ArrayList;
+
 import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.agentbased.AgentMutator;
 import com.evolutionandgames.jevodyn.utils.Random;
 
 public class DPDAMutator implements AgentMutator {
+
+	private static final double mutationProbabilityPerState = 0.1;
+	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.4 };
 
 	public DPDAMutator(double mutationProbabilityPerState,
 			double addStatesProbability, double removeStatesProbability,
@@ -16,11 +21,37 @@ public class DPDAMutator implements AgentMutator {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Agent mutate(Agent arg0) {
-		// Build a mutation chain
+	public DPDAMutator() {
 
+	}
+
+	private enum MutationEvent {
+		ADD, REMOVE, CHANGE
+	}
+
+	public Agent mutate(Agent arg0) {
+		// Copy?
+
+		// Build a mutation chain
+		ArrayList<MutationEvent> mutationChain = buildMutationChain(((DPDA) arg0)
+				.getStates().size());
 		// Apply mutations
-		return null;
+		for (MutationEvent mutation : mutationChain) {
+			switch (mutation) {
+			case ADD:
+				addState((DPDA) arg0);
+				break;
+			case CHANGE:
+				change((DPDA) arg0);
+				break;
+			case REMOVE:
+				removeState((DPDA) arg0);
+				break;
+			default:
+				break;
+			}
+		}
+		return arg0;
 	}
 
 	public void addState(DPDA dpda) {
@@ -155,5 +186,38 @@ public class DPDAMutator implements AgentMutator {
 						.nextInt(DPDA.STACK_ALPHABET.length)];
 			}
 		}
+	}
+
+	/**
+	 * Build a chain of mutation events to be applied to the automata. One event
+	 * is added per state with probability mutationProbabilityPerState.
+	 * Therefore the expected size of a chain is size of the automata times the
+	 * probability of mutation per state.
+	 * 
+	 * - From JG's FSA
+	 * 
+	 * @param size
+	 * @return
+	 */
+	private ArrayList<MutationEvent> buildMutationChain(int size) {
+		ArrayList<MutationEvent> mutationEvents = new ArrayList<MutationEvent>();
+		for (int i = 0; i < size; i++) {
+			if (Random.bernoulliTrial(mutationProbabilityPerState)) {
+				int eventType = Random
+						.simulateDiscreteDistribution(distrubutionOfEvents);
+				switch (eventType) {
+				case 0:
+					mutationEvents.add(MutationEvent.ADD);
+					break;
+				case 1:
+					mutationEvents.add(MutationEvent.REMOVE);
+					break;
+				case 2:
+					mutationEvents.add(MutationEvent.CHANGE);
+					break;
+				}
+			}
+		}
+		return mutationEvents;
 	}
 }
