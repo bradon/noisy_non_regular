@@ -32,7 +32,7 @@ public class State {
 	 */
 	public Transition validTransition(char read, int stack_top) {
 		//TODO: Build all transitions and throw an error if there is more than one valid. 
-		for (Transition transition : transitions) {
+		for (Transition transition : getTransitions()) {
 			if (read == transition.read || transition.read == DPDA.EMPTY_INPUT) {
 				if (stack_top == transition.pop
 						|| transition.pop == DPDA.EMPTY_STACK) {
@@ -53,7 +53,7 @@ public class State {
 		int result = 1;
 		result = prime * result + ((action == null) ? 0 : action.hashCode());
 		result = prime * result
-				+ ((transitions == null) ? 0 : transitions.hashCode());
+				+ ((getTransitions() == null) ? 0 : getTransitions().hashCode());
 		return result;
 	}
 
@@ -75,13 +75,21 @@ public class State {
 		if (action != other.action) {
 			return false;
 		}
-		if (transitions == null) {
-			if (other.transitions != null) {
+		if (getTransitions() == null) {
+			if (other.getTransitions() != null) {
 				return false;
 			}
-		} else if (!transitions.equals(other.transitions)) {
+		} else if (!getTransitions().equals(other.getTransitions())) {
 			return false;
 		}
 		return true;
+	}
+
+	public ArrayList<Transition> getTransitions() {
+		return transitions;
+	}
+
+	public void setTransitions(ArrayList<Transition> transitions) {
+		this.transitions = transitions;
 	}
 }

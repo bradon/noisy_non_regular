@@ -12,7 +12,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	// TODO: Define behaviour in null cases
 
 	static int MAX_PATH_SIZE = 10;
-	
+
 	static int EMPTY_STACK = -1;
 
 	static int[] STACK_ALPHABET = { 0, EMPTY_STACK };
@@ -55,12 +55,11 @@ public class DPDA implements Agent, RepeatedStrategy {
 		}
 	}
 
-	
 	/**
 	 * This method updates the current state based on the input actions.
 	 */
 	public void next(Action focal, Action other) {
-		
+		currentState = getCurrentState();
 		if (currentState == null) {
 			throw new RuntimeException("This is a problem!");
 		}
@@ -70,7 +69,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		boolean hasExhaustedInputString = false;
 		int path_size = 0;
 		while (path_size < MAX_PATH_SIZE) {
-			
+
 			path_size++;
 
 			// TODO: verify one valid transition
@@ -80,7 +79,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 				transition = currentState.validTransition(historyMove,
 						DPDA.EMPTY_STACK);
 			} else {
-				transition = currentState.validTransition(historyMove, stack.peek());
+				transition = currentState.validTransition(historyMove,
+						stack.peek());
 			}
 			if (transition == null) {
 				if (!hasExhaustedInputString) {

@@ -8,24 +8,24 @@ public class Temp {
 		State state = new State();
 		Transition transition = new Transition('R', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state);
-		state.transitions.add(transition);
-		dpda.states.add(state);
+		state.getTransitions().add(transition);
+		dpda.getStates().add(state);
 		state.flip();
 		State state2 = new State();
-		dpda.states.add(state2);
-		state.transitions.add(new Transition('T', DPDA.EMPTY_STACK,
+		dpda.getStates().add(state2);
+		state.getTransitions().add(new Transition('T', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state));
-		state.transitions.add(new Transition('S', DPDA.EMPTY_STACK,
+		state.getTransitions().add(new Transition('S', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state2));
-		state.transitions.add(new Transition('P', DPDA.EMPTY_STACK,
+		state.getTransitions().add(new Transition('P', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state2));
-		state2.transitions.add(new Transition('R', DPDA.EMPTY_STACK,
+		state2.getTransitions().add(new Transition('R', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state));
-		state2.transitions.add(new Transition('T', DPDA.EMPTY_STACK,
+		state2.getTransitions().add(new Transition('T', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state));
-		state2.transitions.add(new Transition('S', DPDA.EMPTY_STACK,
+		state2.getTransitions().add(new Transition('S', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state2));
-		state2.transitions.add(new Transition('P', DPDA.EMPTY_STACK,
+		state2.getTransitions().add(new Transition('P', DPDA.EMPTY_STACK,
 				DPDA.EMPTY_STACK, state2));
 		System.out.println("Default");
 		System.out.println(dpda.currentAction());
