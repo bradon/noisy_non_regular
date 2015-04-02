@@ -37,6 +37,7 @@ public class DPDAMutator implements AgentMutator {
 				.getStates().size());
 		// Apply mutations
 		for (MutationEvent mutation : mutationChain) {
+			System.out.println(mutation);
 			switch (mutation) {
 			case ADD:
 				addState((DPDA) arg0);
@@ -58,13 +59,15 @@ public class DPDAMutator implements AgentMutator {
 		// Add a state to the DPDA and make it reachable
 		// TODO: Random should use the seeded random method
 		State newState = new State();
-		dpda.getStates().add(newState);
+		
 		int random_state_index = Random.nextInt(dpda.getStates().size());
+		System.out.println(dpda.getStates().get(random_state_index)
+				.getTransitions().size());
 		int random_transition_index = Random.nextInt(dpda.getStates()
 				.get(random_state_index).getTransitions().size());
 		dpda.getStates().get(random_state_index).getTransitions()
 				.get(random_transition_index).destination = newState;
-
+		dpda.getStates().add(newState);
 		// TODO: generate random deterministic transitions
 
 		// TODO: Probabilities
@@ -138,6 +141,9 @@ public class DPDAMutator implements AgentMutator {
 	}
 
 	public void removeState(DPDA dpda) {
+		if (dpda.getStates().size() < 2) {
+			return;
+		}
 		// TODO: seeded random
 		int random_state = Random.nextInt(dpda.getStates().size());
 		State removedState = dpda.getStates().get(random_state);
