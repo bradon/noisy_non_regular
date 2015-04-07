@@ -30,6 +30,13 @@ public class DPDAMutator implements AgentMutator {
 		ADD, REMOVE, CHANGE
 	}
 
+	public DPDA copyDPDA() {
+		// Create new DPDA
+		DPDA copy = new DPDA();
+		
+		return null;
+	}
+
 	public Agent mutate(Agent arg0) {
 		// Copy?
 
@@ -59,7 +66,7 @@ public class DPDAMutator implements AgentMutator {
 	public void generateRandomTransitions(DPDA dpda, State state) {
 		// Possible change: add set destination/pop
 		// For switch from pop to non-pop and vice versa
-		
+
 		// TODO: Probabilities
 		// First: Does it read?
 		if (Random.nextBoolean()) {

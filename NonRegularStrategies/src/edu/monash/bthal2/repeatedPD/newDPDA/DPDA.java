@@ -33,11 +33,41 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return states;
 	}
 
+	public DPDA copyDPDA() {
+		// Create new DPDA
+		DPDA copy = new DPDA();
+		// Copy states (not transitions)
+		for (State state : states) {
+			State newState = new State();
+			if (state.currentAction() == Action.COOPERATE) {
+				newState.flip();
+			}
+			copy.getStates().add(newState);
+		}
+		// Copy transitions
+		for (State state : states) {
+			for (Transition transition : state.getTransitions()) {
+				State destinationState = copy.getStates().get(
+						states.indexOf(transition.destination));
+				int sourceState = states.indexOf(state);
+				Transition newTransition = new Transition(transition.read,
+						transition.pop, transition.push, destinationState);
+				copy.getStates().get(sourceState).getTransitions()
+						.add(newTransition);
+			}
+		}
+		return copy;
+	}
+
 	public String toString() {
 		// What is javas string builder?
 		String returnString = "";
 		for (State state : states) {
+			if (state.currentAction() == Action.COOPERATE) {
+				returnString = returnString + "Final State ";
+			}
 			for (Transition transition : state.getTransitions()) {
+
 				returnString = returnString + states.indexOf(state) + " to "
 						+ states.indexOf(transition.destination) + " read "
 						+ transition.read + " pop " + transition.pop + " push "
