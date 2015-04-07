@@ -55,21 +55,7 @@ public class DPDAMutator implements AgentMutator {
 		return arg0;
 	}
 
-	public void addState(DPDA dpda) {
-		// Add a state to the DPDA and make it reachable
-		// TODO: Random should use the seeded random method
-		State newState = new State();
-		
-		int random_state_index = Random.nextInt(dpda.getStates().size());
-		System.out.println(dpda.getStates().get(random_state_index)
-				.getTransitions().size());
-		int random_transition_index = Random.nextInt(dpda.getStates()
-				.get(random_state_index).getTransitions().size());
-		dpda.getStates().get(random_state_index).getTransitions()
-				.get(random_transition_index).destination = newState;
-		dpda.getStates().add(newState);
-		// TODO: generate random deterministic transitions
-
+	public void generateRandomTransitions(DPDA dpda, State state) {
 		// TODO: Probabilities
 		// First: Does it read?
 		if (Random.nextBoolean()) {
@@ -89,7 +75,7 @@ public class DPDAMutator implements AgentMutator {
 								Transition newTransition = new Transition(
 										input, pop, newPush, dpda.getStates()
 												.get(newDestination));
-								newState.getTransitions().add(newTransition);
+								state.getTransitions().add(newTransition);
 							}
 						}
 					} else {
@@ -102,7 +88,7 @@ public class DPDAMutator implements AgentMutator {
 						Transition newTransition = new Transition(input,
 								DPDA.EMPTY_STACK, newPush, dpda.getStates()
 										.get(newDestination));
-						newState.getTransitions().add(newTransition);
+						state.getTransitions().add(newTransition);
 					}
 
 				}
@@ -122,7 +108,7 @@ public class DPDAMutator implements AgentMutator {
 						Transition newTransition = new Transition(
 								DPDA.EMPTY_INPUT, pop, newPush, dpda
 										.getStates().get(newDestination));
-						newState.getTransitions().add(newTransition);
+						state.getTransitions().add(newTransition);
 					}
 				}
 			} else {
@@ -134,10 +120,31 @@ public class DPDAMutator implements AgentMutator {
 				Transition newTransition = new Transition(DPDA.EMPTY_INPUT,
 						DPDA.EMPTY_STACK, newPush, dpda.getStates().get(
 								newDestination));
-				newState.getTransitions().add(newTransition);
+				state.getTransitions().add(newTransition);
 			}
 
 		}
+
+	}
+
+	public void addState(DPDA dpda) {
+		// Add a state to the DPDA and make it reachable
+		// TODO: Random should use the seeded random method
+		State newState = new State();
+
+		int random_state_index = Random.nextInt(dpda.getStates().size());
+		System.out.println(dpda.getStates().get(random_state_index)
+				.getTransitions().size());
+		int random_transition_index = Random.nextInt(dpda.getStates()
+				.get(random_state_index).getTransitions().size());
+		dpda.getStates().get(random_state_index).getTransitions()
+				.get(random_transition_index).destination = newState;
+		dpda.getStates().add(newState);
+		// TODO: generate random deterministic transitions
+
+		// TODO: Probabilities
+		// First: Does it read?
+		generateRandomTransitions(dpda, newState);
 	}
 
 	public void removeState(DPDA dpda) {
