@@ -50,5 +50,6 @@ public class Temp {
 		for (int i = 0; i < 100; i++) {
 			mutator.mutate(dpda);
 		}
+		System.out.print(dpda);
 	}
 }

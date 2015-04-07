@@ -9,7 +9,8 @@ import com.evolutionandgames.jevodyn.utils.Random;
 public class DPDAMutator implements AgentMutator {
 
 	private static final double mutationProbabilityPerState = 0.1;
-	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.4 };
+
+	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.3, 0.1 };
 
 	public DPDAMutator(double mutationProbabilityPerState,
 			double addStatesProbability, double removeStatesProbability,
@@ -56,6 +57,9 @@ public class DPDAMutator implements AgentMutator {
 	}
 
 	public void generateRandomTransitions(DPDA dpda, State state) {
+		// Possible change: add set destination/pop
+		// For switch from pop to non-pop and vice versa
+		
 		// TODO: Probabilities
 		// First: Does it read?
 		if (Random.nextBoolean()) {
@@ -181,6 +185,7 @@ public class DPDAMutator implements AgentMutator {
 		// Select uniformly? Probably harder to analyse?
 		int random_change = Random
 				.nextInt(random_state.getTransitions().size() + 1);
+
 		if (random_change == random_state.getTransitions().size()) {
 			// 1/transitions+1 chance of flip
 			random_state.flip();

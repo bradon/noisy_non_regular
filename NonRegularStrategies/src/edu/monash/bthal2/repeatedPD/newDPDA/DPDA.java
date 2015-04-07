@@ -33,6 +33,20 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return states;
 	}
 
+	public String toString() {
+		// What is javas string builder?
+		String returnString = "";
+		for (State state : states) {
+			for (Transition transition : state.getTransitions()) {
+				returnString = returnString + states.indexOf(state) + " to "
+						+ states.indexOf(transition.destination) + " read "
+						+ transition.read + " pop " + transition.pop + " push "
+						+ transition.push + "\n";
+			}
+		}
+		return returnString;
+	}
+
 	private ArrayList<State> states = new ArrayList<State>();
 	private Stack<Integer> stack = new Stack<Integer>();
 
