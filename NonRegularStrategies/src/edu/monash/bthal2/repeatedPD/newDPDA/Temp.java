@@ -5,6 +5,8 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class Temp {
 	public static void main(String[] args) {
+		// TODO: This class is a bad, ad-hoc test and needs to be 
+		// replaced with proper testing
 		Random.seed();
 		DPDA dpda = new DPDA();
 		State state = new State();
@@ -43,6 +45,8 @@ public class Temp {
 		System.out.println("S");
 		System.out.println(dpda.currentAction());
 		DPDAMutator mutator = new DPDAMutator();
+		// Mutate 100 times, to check if we reach invalid states
+		// Better checking is necessary!
 		for (int i = 0; i < 100; i++) {
 			mutator.mutate(dpda);
 		}

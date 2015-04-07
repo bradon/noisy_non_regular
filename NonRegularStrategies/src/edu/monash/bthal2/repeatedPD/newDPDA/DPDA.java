@@ -13,16 +13,16 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	static int MAX_PATH_SIZE = 10;
 
-	static int EMPTY_STACK = -1;
+	final static int EMPTY_STACK = -1;
 
-	static int[] STACK_ALPHABET = { 0, EMPTY_STACK };
+	final static int[] STACK_ALPHABET = { 0, EMPTY_STACK };
 
-	static char EMPTY_INPUT = 'l';
-	static char R = 'R';
-	static char S = 'S';
-	static char T = 'T';
-	static char P = 'P';
-	static char[] INPUT_ALPHABET = { R, T, S, P, EMPTY_INPUT };
+	final static char EMPTY_INPUT = 'l';
+	final static char R = 'R';
+	final static char S = 'S';
+	final static char T = 'T';
+	final static char P = 'P';
+	final static char[] INPUT_ALPHABET = { R, T, S, P, EMPTY_INPUT };
 
 	private State currentState;
 
