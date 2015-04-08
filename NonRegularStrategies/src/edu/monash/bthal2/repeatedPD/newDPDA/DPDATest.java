@@ -19,7 +19,7 @@ public class DPDATest {
 		//System.out.println(dpda);
 	}
 
-	//@Test
+	@Test
 	public void testCopyDPDA() {
 		// A copy of a DPDA should have the same hash as a DPDA
 		DPDA dpda = randomDPDA();
