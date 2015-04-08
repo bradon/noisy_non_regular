@@ -35,7 +35,7 @@ public class State {
 		for (Transition transition : getTransitions()) {
 			if (read == transition.read || transition.read == DPDA.EMPTY_INPUT) {
 				if (stack_top == transition.pop
-						|| transition.pop == DPDA.EMPTY_STACK) {
+						|| transition.pop == DPDA.NULL_MARKER) {
 					return transition;
 				}
 			}

@@ -10,30 +10,30 @@ public class Temp {
 		Random.seed();
 		DPDA dpda = new DPDA();
 		State state = new State();
-		Transition transition = new Transition('R', DPDA.EMPTY_STACK,
-				DPDA.EMPTY_STACK, state);
+		Transition transition = new Transition('R', DPDA.NULL_MARKER,
+				DPDA.NULL_MARKER, state);
 		state.getTransitions().add(transition);
 		dpda.getStates().add(state);
 		state.flip();
 		State state2 = new State();
 		dpda.getStates().add(state2);
 		state.getTransitions().add(
-				new Transition('T', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK, state));
+				new Transition('T', DPDA.NULL_MARKER, DPDA.NULL_MARKER, state));
 		state.getTransitions()
-				.add(new Transition('S', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK,
+				.add(new Transition('S', DPDA.NULL_MARKER, DPDA.NULL_MARKER,
 						state2));
 		state.getTransitions()
-				.add(new Transition('P', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK,
+				.add(new Transition('P', DPDA.NULL_MARKER, DPDA.NULL_MARKER,
 						state2));
 		state2.getTransitions().add(
-				new Transition('R', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK, state));
+				new Transition('R', DPDA.NULL_MARKER, DPDA.NULL_MARKER, state));
 		state2.getTransitions().add(
-				new Transition('T', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK, state));
+				new Transition('T', DPDA.NULL_MARKER, DPDA.NULL_MARKER, state));
 		state2.getTransitions()
-				.add(new Transition('S', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK,
+				.add(new Transition('S', DPDA.NULL_MARKER, DPDA.NULL_MARKER,
 						state2));
 		state2.getTransitions()
-				.add(new Transition('P', DPDA.EMPTY_STACK, DPDA.EMPTY_STACK,
+				.add(new Transition('P', DPDA.NULL_MARKER, DPDA.NULL_MARKER,
 						state2));
 		System.out.println("Default");
 		System.out.println(dpda.currentAction());

@@ -38,7 +38,6 @@ public class DPDAMutator implements AgentMutator {
 				.getStates().size());
 		// Apply mutations
 		for (MutationEvent mutation : mutationChain) {
-			System.out.println(mutation);
 			switch (mutation) {
 			case ADD:
 				addState((DPDA) arg0);
@@ -70,12 +69,18 @@ public class DPDAMutator implements AgentMutator {
 					if (Random.nextBoolean()) {
 						// Pops
 						for (int pop : DPDA.STACK_ALPHABET) {
-							if (pop != DPDA.EMPTY_STACK) {
+							if (pop != DPDA.NULL_MARKER) {
 								// Add transition
 								int newDestination = Random.nextInt(dpda
 										.getStates().size());
-								int newPush = DPDA.STACK_ALPHABET[Random
-										.nextInt(DPDA.STACK_ALPHABET.length)];
+								int newPush;
+								if (pop != DPDA.STACK_MARKER) {
+
+									newPush = DPDA.STACK_ALPHABET[Random
+											.nextInt(DPDA.STACK_ALPHABET.length - 1)];
+								} else {
+									newPush = DPDA.STACK_MARKER;
+								}
 								Transition newTransition = new Transition(
 										input, pop, newPush, dpda.getStates()
 												.get(newDestination));
@@ -88,9 +93,9 @@ public class DPDAMutator implements AgentMutator {
 						int newDestination = Random.nextInt(dpda.getStates()
 								.size());
 						int newPush = DPDA.STACK_ALPHABET[Random
-								.nextInt(DPDA.STACK_ALPHABET.length)];
+								.nextInt(DPDA.STACK_ALPHABET.length - 1)];
 						Transition newTransition = new Transition(input,
-								DPDA.EMPTY_STACK, newPush, dpda.getStates()
+								DPDA.NULL_MARKER, newPush, dpda.getStates()
 										.get(newDestination));
 						state.getTransitions().add(newTransition);
 					}
@@ -103,12 +108,18 @@ public class DPDAMutator implements AgentMutator {
 			if (Random.nextBoolean()) {
 				// Pops
 				for (int pop : DPDA.STACK_ALPHABET) {
-					if (pop != DPDA.EMPTY_STACK) {
+					if (pop != DPDA.NULL_MARKER) {
 						// Add transition
 						int newDestination = Random.nextInt(dpda.getStates()
 								.size());
-						int newPush = DPDA.STACK_ALPHABET[Random
-								.nextInt(DPDA.STACK_ALPHABET.length)];
+						int newPush;
+						if (pop != DPDA.STACK_MARKER) {
+
+							newPush = DPDA.STACK_ALPHABET[Random
+									.nextInt(DPDA.STACK_ALPHABET.length - 1)];
+						} else {
+							newPush = DPDA.STACK_MARKER;
+						}
 						Transition newTransition = new Transition(
 								DPDA.EMPTY_INPUT, pop, newPush, dpda
 										.getStates().get(newDestination));
@@ -122,7 +133,7 @@ public class DPDAMutator implements AgentMutator {
 				int newPush = DPDA.STACK_ALPHABET[Random
 						.nextInt(DPDA.STACK_ALPHABET.length)];
 				Transition newTransition = new Transition(DPDA.EMPTY_INPUT,
-						DPDA.EMPTY_STACK, newPush, dpda.getStates().get(
+						DPDA.NULL_MARKER, newPush, dpda.getStates().get(
 								newDestination));
 				state.getTransitions().add(newTransition);
 			}
@@ -135,7 +146,6 @@ public class DPDAMutator implements AgentMutator {
 		// Add a state to the DPDA and make it reachable
 		// TODO: Random should use the seeded random method
 		State newState = new State();
-
 		int random_state_index;
 		if (dpda.getStates().size() > 0) {
 			random_state_index = Random.nextInt(dpda.getStates().size());
@@ -146,8 +156,6 @@ public class DPDAMutator implements AgentMutator {
 			return;
 		}
 
-		System.out.println(dpda.getStates().get(random_state_index)
-				.getTransitions().size());
 		int random_transition_index = Random.nextInt(dpda.getStates()
 				.get(random_state_index).getTransitions().size());
 		dpda.getStates().get(random_state_index).getTransitions()
@@ -209,8 +217,10 @@ public class DPDAMutator implements AgentMutator {
 			} else {
 				// Switch push
 				// Self mutation possible (no change)
-				transition.push = DPDA.STACK_ALPHABET[Random
-						.nextInt(DPDA.STACK_ALPHABET.length)];
+				if (transition.push != DPDA.STACK_MARKER) {
+					transition.push = DPDA.STACK_ALPHABET[Random
+							.nextInt(DPDA.STACK_ALPHABET.length - 1)];
+				}
 			}
 		}
 	}

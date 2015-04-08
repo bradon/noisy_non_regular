@@ -3,6 +3,8 @@ package edu.monash.bthal2.repeatedPD.newDPDA;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import javax.management.RuntimeErrorException;
+
 import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
@@ -13,9 +15,10 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	static int MAX_PATH_SIZE = 10;
 
-	final static int EMPTY_STACK = -1;
+	final static int NULL_MARKER = -1;
+	final static int STACK_MARKER = -2;
 
-	final static int[] STACK_ALPHABET = { 0, EMPTY_STACK };
+	final static int[] STACK_ALPHABET = { 0, NULL_MARKER, STACK_MARKER };
 
 	final static char EMPTY_INPUT = 'l';
 	final static char R = 'R';
@@ -31,6 +34,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 	 */
 	public ArrayList<State> getStates() {
 		return states;
+	}
+	public DPDA() {
+		stack.push(DPDA.STACK_MARKER);
 	}
 
 	public void printTable() {
@@ -141,7 +147,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 			// TODO: define stack behavior clearly. Is stack marker enforced?
 			if (stack.isEmpty()) {
 				transition = currentState.validTransition(historyMove,
-						DPDA.EMPTY_STACK);
+						DPDA.NULL_MARKER);
 			} else {
 				transition = currentState.validTransition(historyMove,
 						stack.peek());
@@ -152,6 +158,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 					// Should never occur (IF we force to always have a
 					// transition)
 					System.out.println("DPDA did not consume input");
+					System.out.println(toString());
+					System.out.println("Stack: "+stack);
+					throw new RuntimeException("DPDA did not consume input");
 				}
 				// If no valid transitions exist we stop
 				return;
@@ -171,7 +180,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
-		throw new RuntimeException("Max path exceeded - halting issue?");
+		//throw new RuntimeException("Max path exceeded - halting issue?");
 	}
 
 	private char determineHistoryMove(Action focal, Action other) {
@@ -190,6 +199,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	public void reset() {
 		stack.clear();
+		stack.push(DPDA.STACK_MARKER);
 		currentState = null;
 		currentState = getCurrentState();
 	}
@@ -203,8 +213,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((currentState == null) ? 0 : currentState.hashCode());
+		//result = prime * result + states.indexOf(currentState);
 		for (State state : states) {
 			result = prime * result + state.currentAction().hashCode();
 			for (Transition transition : state.getTransitions()) {
