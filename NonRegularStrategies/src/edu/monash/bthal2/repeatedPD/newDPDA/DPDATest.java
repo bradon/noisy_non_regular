@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.evolutionandgames.jevodyn.utils.Random;
+import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class DPDATest {
 
@@ -12,11 +13,7 @@ public class DPDATest {
 	public void testCopyDPDA() {
 		// A copy of a DPDA should have the same hash as a DPDA
 		DPDA dpda = randomDPDA();
-		DPDAMutator mutator = new DPDAMutator();
-		// Mutate 100 times, to generate a random machine
-		for (int i = 0; i < 0; i++) {
-			mutator.mutate(dpda);
-		}
+
 		System.out.println("Hash Original: " + dpda.hashCode());
 		DPDA copy = dpda.copyDPDA();
 		System.out.println("Hash Original: " + dpda.hashCode());
@@ -25,7 +22,31 @@ public class DPDATest {
 		System.out.println(dpda);
 		System.out.println("Copy :");
 		System.out.println(copy);
+		assert (dpda.hashCode() == copy.hashCode());
 
+	}
+
+	@Test
+	public void testRandomInput() {
+		DPDA dpda = randomDPDA();
+		int ALPHABET_SIZE = 4;
+		Random.seed();
+		for (int i = 0; i < 100; i++) {
+			Action focal;
+			Action other;
+			if (Random.nextBoolean()) {
+				focal = Action.COOPERATE;
+			} else {
+				focal = Action.DEFECT;
+			}
+			if (Random.nextBoolean()) {
+				other = Action.COOPERATE;
+			} else {
+				other = Action.DEFECT;
+			}
+			dpda.next(focal, other);
+			System.out.println(dpda.currentAction());
+		}
 	}
 
 	public DPDA randomDPDA() {
@@ -33,7 +54,10 @@ public class DPDATest {
 		DPDA dpda = new DPDA();
 		DPDAMutator mutator = new DPDAMutator();
 		mutator.addState(dpda);
-
+		// Mutate 100 times, to generate a random machine
+		for (int i = 0; i < 0; i++) {
+			mutator.mutate(dpda);
+		}
 		return dpda;
 	}
 }
