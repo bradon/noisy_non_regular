@@ -35,27 +35,31 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public ArrayList<State> getStates() {
 		return states;
 	}
+
 	public DPDA() {
 		stack.push(DPDA.STACK_MARKER);
 	}
 
-	public void printTable() {
+	public String printTable() {
 
 		// What is javas string builder?
 		String returnString = "";
 		for (State state : states) {
-			if (state.currentAction() == Action.COOPERATE) {
-				returnString = returnString + "Final State ";
-			}
-			for (Transition transition : state.getTransitions()) {
 
-				returnString = returnString + states.indexOf(state) + " to "
-						+ states.indexOf(transition.destination) + " read "
-						+ transition.read + " pop " + transition.pop + " push "
+			for (Transition transition : state.getTransitions()) {
+				if (state.currentAction() == Action.COOPERATE) {
+					returnString = returnString + "F,";
+				} else {
+					returnString = returnString + "N,";
+				}
+				returnString = returnString + states.indexOf(state) + ","
+						+ states.indexOf(transition.destination) + ","
+						+ transition.read + "," + transition.pop + ","
 						+ transition.push + "\n";
 			}
 
 		}
+		return returnString;
 	}
 
 	// I recall issues with clone() and have avoided for now
@@ -159,7 +163,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 					// transition)
 					System.out.println("DPDA did not consume input");
 					System.out.println(toString());
-					System.out.println("Stack: "+stack);
+					System.out.println("Stack: " + stack);
 					throw new RuntimeException("DPDA did not consume input");
 				}
 				// If no valid transitions exist we stop
@@ -180,7 +184,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
-		//throw new RuntimeException("Max path exceeded - halting issue?");
+		// throw new RuntimeException("Max path exceeded - halting issue?");
 	}
 
 	private char determineHistoryMove(Action focal, Action other) {
@@ -213,7 +217,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		//result = prime * result + states.indexOf(currentState);
+		// result = prime * result + states.indexOf(currentState);
 		for (State state : states) {
 			result = prime * result + state.currentAction().hashCode();
 			for (Transition transition : state.getTransitions()) {

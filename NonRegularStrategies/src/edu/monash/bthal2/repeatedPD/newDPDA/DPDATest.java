@@ -29,9 +29,9 @@ public class DPDATest {
 		System.out.println("Hash Original: " + dpda.hashCode());
 		System.out.println("Copy Hash " + copy.hashCode());
 		System.out.println("Original :");
-		System.out.println(dpda.toString());
+		System.out.println(dpda.printTable());
 		System.out.println("Copy :");
-		System.out.println(copy.toString());
+		System.out.println(dpda.printTable());
 		System.out.println("Size :" + copy.getStates().size());
 		assertTrue(dpda.hashCode() == copy.hashCode());
 
