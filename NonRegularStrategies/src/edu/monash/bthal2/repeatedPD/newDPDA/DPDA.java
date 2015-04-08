@@ -33,6 +33,26 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return states;
 	}
 
+	public void printTable() {
+
+		// What is javas string builder?
+		String returnString = "";
+		for (State state : states) {
+			if (state.currentAction() == Action.COOPERATE) {
+				returnString = returnString + "Final State ";
+			}
+			for (Transition transition : state.getTransitions()) {
+
+				returnString = returnString + states.indexOf(state) + " to "
+						+ states.indexOf(transition.destination) + " read "
+						+ transition.read + " pop " + transition.pop + " push "
+						+ transition.push + "\n";
+			}
+
+		}
+	}
+
+	// I recall issues with clone() and have avoided for now
 	public DPDA copyDPDA() {
 		// Create new DPDA
 		DPDA copy = new DPDA();

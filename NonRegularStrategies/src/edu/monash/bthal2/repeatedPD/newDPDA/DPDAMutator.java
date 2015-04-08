@@ -30,13 +30,6 @@ public class DPDAMutator implements AgentMutator {
 		ADD, REMOVE, CHANGE
 	}
 
-	public DPDA copyDPDA() {
-		// Create new DPDA
-		DPDA copy = new DPDA();
-		
-		return null;
-	}
-
 	public Agent mutate(Agent arg0) {
 		// Copy?
 
@@ -143,7 +136,16 @@ public class DPDAMutator implements AgentMutator {
 		// TODO: Random should use the seeded random method
 		State newState = new State();
 
-		int random_state_index = Random.nextInt(dpda.getStates().size());
+		int random_state_index;
+		if (dpda.getStates().size() > 0) {
+			random_state_index = Random.nextInt(dpda.getStates().size());
+		} else {
+			random_state_index = 0;
+			dpda.getStates().add(newState);
+			generateRandomTransitions(dpda, newState);
+			return;
+		}
+
 		System.out.println(dpda.getStates().get(random_state_index)
 				.getTransitions().size());
 		int random_transition_index = Random.nextInt(dpda.getStates()

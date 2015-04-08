@@ -5,7 +5,7 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class Temp {
 	public static void main(String[] args) {
-		// TODO: This class is a bad, ad-hoc test and needs to be 
+		// TODO: This class is a bad, ad-hoc test and needs to be
 		// replaced with proper testing
 		Random.seed();
 		DPDA dpda = new DPDA();
@@ -50,6 +50,7 @@ public class Temp {
 		for (int i = 0; i < 100; i++) {
 			mutator.mutate(dpda);
 		}
-		System.out.print(dpda);
+		System.out.println(dpda);
+		System.out.println(dpda.copyDPDA());
 	}
 }
