@@ -205,8 +205,16 @@ public class DPDA implements Agent, RepeatedStrategy {
 		int result = 1;
 		result = prime * result
 				+ ((currentState == null) ? 0 : currentState.hashCode());
-		result = prime * result + ((stack == null) ? 0 : stack.hashCode());
-		result = prime * result + ((states == null) ? 0 : states.hashCode());
+		for (State state : states) {
+			result = prime * result + state.currentAction().hashCode();
+			for (Transition transition : state.getTransitions()) {
+				result = prime * result + transition.pop;
+				result = prime * result + transition.push;
+				result = prime * result + transition.read;
+				result = prime * result
+						+ states.indexOf(transition.destination);
+			}
+		}
 		return result;
 	}
 
