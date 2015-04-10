@@ -1,5 +1,11 @@
 package edu.monash.bthal2.repeatedPD.newDPDA;
 
+/**
+ * Transition to a State in a DPDA
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class Transition {
 	public int pop;
 	public int push;

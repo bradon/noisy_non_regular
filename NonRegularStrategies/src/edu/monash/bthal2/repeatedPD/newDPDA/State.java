@@ -4,15 +4,28 @@ import java.util.ArrayList;
 
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
+/**
+ * State of a DPDA
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class State {
-
 	private Action action = Action.DEFECT;
 	private ArrayList<Transition> transitions = new ArrayList<Transition>();
 
-	public Action currentAction() {
+	/**
+	 * Action returned by this state
+	 * 
+	 * @return
+	 */
+	public Action stateAction() {
 		return action;
 	}
 
+	/**
+	 * Change action returned by this state
+	 */
 	public void flip() {
 		if (action == Action.DEFECT) {
 			action = Action.COOPERATE;
@@ -30,8 +43,6 @@ public class State {
 	 * @return
 	 */
 	public Transition validTransition(char read, int stack_top) {
-		// TODO: Build all transitions and throw an error if there is more than
-		// one valid.
 		for (Transition transition : getTransitions()) {
 			if (read == transition.read || transition.read == DPDA.EMPTY_INPUT) {
 				if (stack_top == transition.pop
@@ -40,8 +51,7 @@ public class State {
 				}
 			}
 		}
-		return null;
-
+		throw new RuntimeException("No valid transitions");
 	}
 
 	/*
@@ -74,10 +84,20 @@ public class State {
 		return true;
 	}
 
+	/**
+	 * Transitions from this State
+	 * 
+	 * @return Transitions
+	 */
 	public ArrayList<Transition> getTransitions() {
 		return transitions;
 	}
 
+	/**
+	 * Set the transitions array
+	 * 
+	 * @param transitions
+	 */
 	public void setTransitions(ArrayList<Transition> transitions) {
 		this.transitions = transitions;
 	}

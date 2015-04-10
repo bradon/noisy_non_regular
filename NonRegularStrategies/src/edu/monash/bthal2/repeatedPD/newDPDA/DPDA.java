@@ -3,15 +3,11 @@ package edu.monash.bthal2.repeatedPD.newDPDA;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import javax.management.RuntimeErrorException;
-
 import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
 public class DPDA implements Agent, RepeatedStrategy {
-
-	// TODO: Define behaviour in null cases
 
 	static int MAX_PATH_SIZE = 10;
 
@@ -47,7 +43,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		for (State state : states) {
 
 			for (Transition transition : state.getTransitions()) {
-				if (state.currentAction() == Action.COOPERATE) {
+				if (state.stateAction() == Action.COOPERATE) {
 					returnString = returnString + "F,";
 				} else {
 					returnString = returnString + "N,";
@@ -69,7 +65,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// Copy states (not transitions)
 		for (State state : states) {
 			State newState = new State();
-			if (state.currentAction() == Action.COOPERATE) {
+			if (state.stateAction() == Action.COOPERATE) {
 				newState.flip();
 			}
 			copy.getStates().add(newState);
@@ -93,7 +89,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// What is javas string builder?
 		String returnString = "";
 		for (State state : states) {
-			if (state.currentAction() == Action.COOPERATE) {
+			if (state.stateAction() == Action.COOPERATE) {
 				returnString = returnString + "Final State ";
 			}
 			for (Transition transition : state.getTransitions()) {
@@ -123,7 +119,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	public Action currentAction() {
 		if (getCurrentState() != null) {
-			return getCurrentState().currentAction();
+			return getCurrentState().stateAction();
 		} else {
 			return null;
 		}
@@ -148,7 +144,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 			// TODO: verify one valid transition
 			Transition transition;
-			// TODO: define stack behavior clearly. Is stack marker enforced?
 			if (stack.isEmpty()) {
 				transition = currentState.validTransition(historyMove,
 						DPDA.NULL_MARKER);
@@ -179,7 +174,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 			if (hasExhaustedInputString) {
 				// If we have consumed input we only need to find an
 				// accepting configuration then we stop
-				if (currentState.currentAction() == Action.COOPERATE) {
+				if (currentState.stateAction() == Action.COOPERATE) {
 					return;
 				}
 			}
@@ -219,7 +214,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		int result = 1;
 		// result = prime * result + states.indexOf(currentState);
 		for (State state : states) {
-			result = prime * result + state.currentAction().hashCode();
+			result = prime * result + state.stateAction().hashCode();
 			for (Transition transition : state.getTransitions()) {
 				result = prime * result + transition.pop;
 				result = prime * result + transition.push;
