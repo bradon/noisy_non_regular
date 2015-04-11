@@ -130,12 +130,14 @@ public class DPDA implements Agent, RepeatedStrategy {
 	 */
 	public void next(Action focal, Action other) {
 		currentState = getCurrentState();
+
 		if (currentState == null) {
 			throw new RuntimeException("This is a problem!");
 		}
 
 		// Determine from actions what the input string is
 		char historyMove = determineHistoryMove(focal, other);
+		//System.out.println("Stack " + stack.peek() + " move " + historyMove);
 		boolean hasExhaustedInputString = false;
 		int path_size = 0;
 		while (path_size < MAX_PATH_SIZE) {
@@ -154,8 +156,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 			if (transition == null) {
 				if (!hasExhaustedInputString) {
 					// Did not consume input
-					// Should never occur (IF we force to always have a
-					// transition)
 					System.out.println("DPDA did not consume input");
 					System.out.println(toString());
 					System.out.println("Stack: " + stack);
@@ -179,9 +179,16 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
-		// throw new RuntimeException("Max path exceeded - halting issue?");
+		// TODO: Record Max Path Exceeded
 	}
 
+	/**
+	 * Convert tuple of Actions to Input Alphabet Char
+	 * 
+	 * @param focal
+	 * @param other
+	 * @return
+	 */
 	private char determineHistoryMove(Action focal, Action other) {
 		if (focal == Action.DEFECT && other == Action.DEFECT) {
 			return P;
@@ -192,10 +199,16 @@ public class DPDA implements Agent, RepeatedStrategy {
 		} else if (focal == Action.COOPERATE && other == Action.COOPERATE) {
 			return R;
 		} else {
+			// Unreachable
 			throw new RuntimeException("This is a problem!");
 		}
 	}
 
+	/**
+	 * Reset DPDA state
+	 * 
+	 * Clears the stack and resets the current state
+	 */
 	public void reset() {
 		stack.clear();
 		stack.push(DPDA.STACK_MARKER);
@@ -203,10 +216,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 		currentState = getCurrentState();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * Hash code to identify unique machines
 	 */
 	@Override
 	public int hashCode() {

@@ -44,6 +44,8 @@ public class State {
 	 */
 	public Transition validTransition(char read, int stack_top) {
 		for (Transition transition : getTransitions()) {
+			// System.out.println(transition.read + " pop " + transition.pop +
+			// " push " + transition.push);
 			if (read == transition.read || transition.read == DPDA.EMPTY_INPUT) {
 				if (stack_top == transition.pop
 						|| transition.pop == DPDA.NULL_MARKER) {
@@ -51,7 +53,10 @@ public class State {
 				}
 			}
 		}
-		throw new RuntimeException("No valid transitions");
+		return null;
+		// It is normal to return null when we have reached a point
+		// Where no non-input-consuming transitions exist
+		// throw new RuntimeException("No valid transitions");
 	}
 
 	/*
