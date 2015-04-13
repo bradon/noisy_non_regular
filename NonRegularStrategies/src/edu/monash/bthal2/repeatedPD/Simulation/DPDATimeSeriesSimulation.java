@@ -29,26 +29,20 @@ public class DPDATimeSeriesSimulation extends TimeSeriesSimulation {
 	protected double changeDestinationProbability;
 	protected double flipState;
 	protected double mutationProbabilityPerState;
-	
+
 	public void init() {
 		// Refactor- some of this code can be generalized
-		//this.factory = new RepeatedStrategyPopulationFactory(populationSize,
-			//	DPDAFactory.ExampleStrategies.allD());
-		this.factory= new DPDAFactory(populationSize);
+		// this.factory = new RepeatedStrategyPopulationFactory(populationSize,
+		// DPDAFactory.ExampleStrategies.allD());
+		this.factory = new DPDAFactory(populationSize);
 
-		
 		// Will need mutation parameters
 		// mutationProbabilityPerState, addingStatesProbability,
 		// removingStatesProbability, addTransitionProbability,
 		// removeTransitionProbability, changingReadProbability,
 		// changingPopProbability, changingPushProbability,
 		// changingDestinationProbability, flipState
-		this.mutator = new DPDAMutator(mutationProbabilityPerState,
-				addStatesProbability, removeStatesProbability,
-				addTransitionProbability, removeTransitionProbability,
-				changeReadProbability, changePopProbability,
-				changePushProbability, changeDestinationProbability, flipState,
-				flipMachineResultProbability);
+		this.mutator = new DPDAMutator();
 
 		this.population = (ExtensivePopulation) factory.createPopulation();
 		this.repeatedGame = new RepeatedGame(this.reward, this.sucker,

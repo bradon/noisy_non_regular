@@ -10,24 +10,29 @@ public class DPDAMutator implements AgentMutator {
 
 	private static final double mutationProbabilityPerState = 0.1;
 
-	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.4};
+	private static double[] distrubutionOfEvents = { 0.3, 0.3, 0.4 };
 
-	
 	// New sig: Add, Change, Delete pr +??
 	public DPDAMutator(double mutationProbabilityPerState,
-			double addStatesProbability, double removeStatesProbability,
-			double addTransitionProbability,
-			double removeTransitionProbability, double changeReadProbability,
-			double changePopProbability, double changePushProbability,
-			double changeDestinationProbability, double flipState,
-			double flipMachineResultProbability) {
-		// TODO Auto-generated constructor stub
+			double addProbability, double removeProbability,
+			double changeProbability) {
+		distrubutionOfEvents = new double[3];
+		distrubutionOfEvents[0] = addProbability;
+		distrubutionOfEvents[1] = removeProbability;
+		distrubutionOfEvents[2] = changeProbability;
+		
 	}
 
 	public DPDAMutator() {
 
 	}
 
+	/**
+	 * Types of Mutations that occur
+	 * 
+	 * @author bradon
+	 * 
+	 */
 	private enum MutationEvent {
 		ADD, REMOVE, CHANGE
 	}
