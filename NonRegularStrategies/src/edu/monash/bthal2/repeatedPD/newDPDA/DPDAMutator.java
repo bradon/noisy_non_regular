@@ -10,8 +10,10 @@ public class DPDAMutator implements AgentMutator {
 
 	private static final double mutationProbabilityPerState = 0.1;
 
-	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.3, 0.1 };
+	private static final double[] distrubutionOfEvents = { 0.3, 0.3, 0.4};
 
+	
+	// New sig: Add, Change, Delete pr +??
 	public DPDAMutator(double mutationProbabilityPerState,
 			double addStatesProbability, double removeStatesProbability,
 			double addTransitionProbability,

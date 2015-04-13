@@ -7,6 +7,13 @@ import com.evolutionandgames.agentbased.Agent;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 import com.evolutionandgames.repeatedgames.evolution.RepeatedStrategy;
 
+/**
+ * Agent that plays Repeated Strategy using a Deterministic Pushdown Austomata
+ * model
+ * 
+ * @author Bradon Hall
+ * 
+ */
 public class DPDA implements Agent, RepeatedStrategy {
 
 	static int MAX_PATH_SIZE = 10;
@@ -36,6 +43,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 		stack.push(DPDA.STACK_MARKER);
 	}
 
+	// Will print out sparse table
 	public String printTable() {
 
 		// What is javas string builder?
@@ -137,7 +145,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 		// Determine from actions what the input string is
 		char historyMove = determineHistoryMove(focal, other);
-		//System.out.println("Stack " + stack.peek() + " move " + historyMove);
+		// System.out.println("Stack " + stack.peek() + " move " + historyMove);
 		boolean hasExhaustedInputString = false;
 		int path_size = 0;
 		while (path_size < MAX_PATH_SIZE) {

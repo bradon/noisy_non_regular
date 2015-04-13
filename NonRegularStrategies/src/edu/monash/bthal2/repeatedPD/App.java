@@ -7,7 +7,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
 import edu.monash.bthal2.repeatedPD.Simulation.DPDAPayoffSimulation;
-import edu.monash.bthal2.repeatedPD.Simulation.DPDATimeSeriesSimulation;
+import edu.monash.bthal2.repeatedPD.Simulation.newDPDATimeSeriesSimulation;
 
 /**
  * Initializing class for running as jar
@@ -20,7 +20,7 @@ public class App {
 	private String file;
 
 	enum SimulationType {
-		LOOKUPPAYOFF, LOOKUPTIMESERIES, PAYOFF, TIMESERIES, DPDAPAYOFF, DPDATIMESERIES
+		PAYOFF, TIMESERIES
 	}
 
 	@Parameter(names = { "-type", "-t" }, description = "Type of simulation", required = true)
@@ -47,7 +47,6 @@ public class App {
 
 		switch (app.type) {
 		case PAYOFF:
-		case DPDAPAYOFF:
 			if (showJson) {
 				System.out.println(DPDAPayoffSimulation.exampleJson());
 			} else {
@@ -55,12 +54,11 @@ public class App {
 			}
 			break;
 		case TIMESERIES:
-		case DPDATIMESERIES:
 			if (showJson) {
-				System.out.println(DPDATimeSeriesSimulation.exampleJson());
+				System.out.println(newDPDATimeSeriesSimulation.exampleJson());
 
 			} else {
-				DPDATimeSeriesSimulation.runApp(app.file,neutralPopulation);
+				newDPDATimeSeriesSimulation.runApp(app.file, neutralPopulation);
 			}
 			break;
 		default:
