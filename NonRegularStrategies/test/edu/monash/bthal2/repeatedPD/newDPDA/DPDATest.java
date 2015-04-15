@@ -8,15 +8,22 @@ import com.evolutionandgames.jevodyn.utils.Random;
 import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class DPDATest {
-	//@Test
+
+	@Test
+	public void testParsing() {
+		DPDA dpda = DPDAFactory.tft();
+		System.out.println(dpda);
+	}
+
+	// @Test
 	public void randomDPDATest() {
 		Random.seed();
 		DPDA dpda = randomDPDA();
 		System.out.println(dpda);
-		//System.out.println(dpda.getStates());
-		//DPDAMutator mutator = new DPDAMutator();
-		//mutator.addState(dpda);
-		//System.out.println(dpda);
+		// System.out.println(dpda.getStates());
+		// DPDAMutator mutator = new DPDAMutator();
+		// mutator.addState(dpda);
+		// System.out.println(dpda);
 	}
 
 	@Test
