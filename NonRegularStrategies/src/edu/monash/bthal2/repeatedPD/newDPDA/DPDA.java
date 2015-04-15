@@ -129,6 +129,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return null;
 	}
 
+	/**
+	 * Action at current DPDA state
+	 */
 	public Action currentAction() {
 		if (halted) {
 			return DEFAULT_ACTION;
@@ -165,10 +168,10 @@ public class DPDA implements Agent, RepeatedStrategy {
 			// TODO: verify one valid transition
 			Transition transition;
 			if (stack.isEmpty()) {
-				transition = currentState.validTransition(historyMove,
+				transition = currentState.validTransitions(historyMove,
 						DPDA.NULL_MARKER);
 			} else {
-				transition = currentState.validTransition(historyMove,
+				transition = currentState.validTransitions(historyMove,
 						stack.peek());
 			}
 			if (transition == null) {

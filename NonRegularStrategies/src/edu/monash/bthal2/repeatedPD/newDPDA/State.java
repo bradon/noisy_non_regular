@@ -42,16 +42,23 @@ public class State {
 	 * @param stack_top
 	 * @return
 	 */
-	public Transition validTransition(char read, int stack_top) {
+	public Transition validTransitions(char read, int stack_top) {
+		ArrayList<Transition> valid = new ArrayList<Transition>();
 		for (Transition transition : getTransitions()) {
 			// System.out.println(transition.read + " pop " + transition.pop +
 			// " push " + transition.push);
 			if (read == transition.read || transition.read == DPDA.EMPTY_INPUT) {
 				if (stack_top == transition.pop
 						|| transition.pop == DPDA.NULL_MARKER) {
-					return transition;
+					valid.add(transition);
 				}
 			}
+		}
+		if (valid.size() > 1) {
+			throw new RuntimeException("Non-Deterministic!");
+		}
+		if (valid.size() == 1) {
+			return valid.get(0);
 		}
 		return null;
 		// It is normal to return null when we have reached a point
