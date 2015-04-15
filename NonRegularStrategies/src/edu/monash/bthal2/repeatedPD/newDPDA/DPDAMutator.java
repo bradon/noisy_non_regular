@@ -150,7 +150,6 @@ public class DPDAMutator implements AgentMutator {
 
 	public void addState(DPDA dpda) {
 		// Add a state to the DPDA and make it reachable
-		// TODO: Random should use the seeded random method
 		State newState = new State();
 		int random_state_index;
 		if (dpda.getStates().size() > 0) {
@@ -167,7 +166,6 @@ public class DPDAMutator implements AgentMutator {
 		dpda.getStates().get(random_state_index).getTransitions()
 				.get(random_transition_index).destination = newState;
 		dpda.getStates().add(newState);
-		// TODO: generate random deterministic transitions
 
 		// TODO: Probabilities
 		// First: Does it read?
@@ -178,7 +176,7 @@ public class DPDAMutator implements AgentMutator {
 		if (dpda.getStates().size() < 2) {
 			return;
 		}
-		// TODO: seeded random
+
 		int random_state = Random.nextInt(dpda.getStates().size());
 		State removedState = dpda.getStates().get(random_state);
 		dpda.getStates().remove(removedState);
@@ -186,7 +184,6 @@ public class DPDAMutator implements AgentMutator {
 			for (Transition transition : state.getTransitions()) {
 				if (transition.destination == removedState) {
 					// Assign a new destination randomly
-					// TODO: Avoid self-empty transitions?
 					random_state = Random.nextInt(dpda.getStates().size());
 					transition.destination = dpda.getStates().get(random_state);
 				}

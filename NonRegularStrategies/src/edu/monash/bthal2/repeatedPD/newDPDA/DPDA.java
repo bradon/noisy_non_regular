@@ -43,6 +43,52 @@ public class DPDA implements Agent, RepeatedStrategy {
 		return states;
 	}
 
+	public DPDA(String definition) {
+		// Split into states
+		String[] stateStrings = definition.split("\n");
+		// Build states first
+		for (String str : stateStrings) {
+			// Allow comments/whitespace
+			// Comments not preserved on conversion to DPDA
+			if (str != "" && str.substring(0, 2) != "\\") {
+				states.add(new State());
+			}
+		}
+		for (String str : stateStrings) {
+			if (str != "" && str.substring(0, 2) != "\\") {
+				// Split into parts of the state definition
+				String[] currentStateStrings = str.split(Parser.TRANSITION_SEPERATOR);
+				// Get the state basics
+				// Index 0 state number, 1 Default, 2 Final/Non
+				// 1 is currently ignored (static final)
+				String[] stateBasics = currentStateStrings[0]
+						.split(Parser.STATE_INTERNAL_SEPERATOR);
+				int sourceState = Integer.valueOf(stateBasics[0]);
+				if (stateBasics[2].equals(Parser.FINAL.F.toString())) {
+					// Is final - flip state
+					states.get(sourceState).flip();
+				}
+				// Build transitions
+				for (int i = 1; i < currentStateStrings.length; i++) {
+					String[] transitionParts = currentStateStrings[i]
+							.split(Parser.TRANSITION_INTERNAL_SEPERATOR);
+					if (transitionParts[0].length() != 1) {
+						throw new RuntimeException("Multiple Char read");
+					}
+					char read = transitionParts[0].charAt(0);
+					int pop = Integer.valueOf(transitionParts[1]);
+					int push = Integer.valueOf(transitionParts[2]);
+					State destination = states.get(Integer
+							.valueOf(transitionParts[3]));
+					Transition newTransition = new Transition(read, pop, push,
+							destination);
+					states.get(sourceState).getTransitions().add(newTransition);
+				}
+			}
+			reset();
+		}
+	}
+
 	public DPDA() {
 		stack.push(DPDA.STACK_MARKER);
 	}
@@ -101,16 +147,19 @@ public class DPDA implements Agent, RepeatedStrategy {
 		// Machine readable
 		String returnString = "";
 		for (State state : states) {
-			returnString = returnString + states.indexOf(state);
+			returnString = returnString + states.indexOf(state)
+					+ Parser.STATE_INTERNAL_SEPERATOR;
 			if (DEFAULT_ACTION == Action.COOPERATE) {
 				returnString = returnString + Parser.DEFAULT.C;
 			} else {
 				returnString = returnString + Parser.DEFAULT.D;
 			}
 			if (state.stateAction() == Action.COOPERATE) {
-				returnString = returnString + Parser.FINAL.F;
+				returnString = returnString + Parser.STATE_INTERNAL_SEPERATOR
+						+ Parser.FINAL.F;
 			} else {
-				returnString = returnString + Parser.FINAL.N;
+				returnString = returnString + Parser.STATE_INTERNAL_SEPERATOR
+						+ Parser.FINAL.N;
 			}
 			for (Transition transition : state.getTransitions()) {
 
@@ -177,7 +226,6 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 			path_size++;
 
-			// TODO: verify one valid transition
 			Transition transition;
 			if (stack.isEmpty()) {
 				transition = currentState.validTransitions(historyMove,

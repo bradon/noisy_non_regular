@@ -12,6 +12,7 @@ public class Parser {
 	}
 
 	final static String TRANSITION_SEPERATOR = ":";
-	final static String TRANSITION_INTERNAL_SEPERATOR = ".";
+	final static String TRANSITION_INTERNAL_SEPERATOR = ";";
+	final static String STATE_INTERNAL_SEPERATOR = ";";
 
 }
