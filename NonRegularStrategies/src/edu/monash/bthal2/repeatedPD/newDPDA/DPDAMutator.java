@@ -20,7 +20,6 @@ public class DPDAMutator implements AgentMutator {
 		distrubutionOfEvents[0] = addProbability;
 		distrubutionOfEvents[1] = removeProbability;
 		distrubutionOfEvents[2] = changeProbability;
-		
 	}
 
 	public DPDAMutator() {
@@ -30,7 +29,7 @@ public class DPDAMutator implements AgentMutator {
 	/**
 	 * Types of Mutations that occur
 	 * 
-	 * @author bradon
+	 * @author Bradon Hall
 	 * 
 	 */
 	private enum MutationEvent {

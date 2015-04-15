@@ -20,7 +20,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	final static int NULL_MARKER = -1;
 	final static int STACK_MARKER = -2;
+	final static int MAX_PATH_LENTH = 10; // Path before we assume non halting
 
+	final static Action DEFAULT_ACTION = Action.DEFECT; // Perform if halting
 	final static int[] STACK_ALPHABET = { 0, NULL_MARKER, STACK_MARKER };
 
 	final static char EMPTY_INPUT = 'l';
@@ -29,8 +31,10 @@ public class DPDA implements Agent, RepeatedStrategy {
 	final static char T = 'T';
 	final static char P = 'P';
 	final static char[] INPUT_ALPHABET = { R, T, S, P, EMPTY_INPUT };
-
+	final static Action ACTION_ON_HALT = Action.DEFECT;
 	private State currentState;
+
+	private boolean halted = false;
 
 	/**
 	 * @return the states
@@ -126,6 +130,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 	}
 
 	public Action currentAction() {
+		if (halted) {
+			return DEFAULT_ACTION;
+		}
 		if (getCurrentState() != null) {
 			return getCurrentState().stateAction();
 		} else {
@@ -141,6 +148,9 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 		if (currentState == null) {
 			throw new RuntimeException("This is a problem!");
+		}
+		if (halted) { // If halted no action required
+			return;
 		}
 
 		// Determine from actions what the input string is
@@ -187,7 +197,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 				}
 			}
 		}
-		// TODO: Record Max Path Exceeded
+		// Record Max Path Exceeded
+		halted = true;
 	}
 
 	/**
@@ -218,6 +229,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	 * Clears the stack and resets the current state
 	 */
 	public void reset() {
+		halted = false;
 		stack.clear();
 		stack.push(DPDA.STACK_MARKER);
 		currentState = null;
