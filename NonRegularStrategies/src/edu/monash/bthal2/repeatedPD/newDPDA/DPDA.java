@@ -45,7 +45,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 
 	public DPDA(String definition) {
 		// Split into states
-		String[] stateStrings = definition.split("\n");
+		String[] stateStrings = definition.split(Parser.STATE_SEPERATOR);
 		// Build states first
 		for (String str : stateStrings) {
 			// Allow comments/whitespace
@@ -57,7 +57,8 @@ public class DPDA implements Agent, RepeatedStrategy {
 		for (String str : stateStrings) {
 			if (str != "" && str.substring(0, 2) != "\\") {
 				// Split into parts of the state definition
-				String[] currentStateStrings = str.split(Parser.TRANSITION_SEPERATOR);
+				String[] currentStateStrings = str
+						.split(Parser.TRANSITION_SEPERATOR);
 				// Get the state basics
 				// Index 0 state number, 1 Default, 2 Final/Non
 				// 1 is currently ignored (static final)
@@ -306,7 +307,7 @@ public class DPDA implements Agent, RepeatedStrategy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		// result = prime * result + states.indexOf(currentState);
+		result = prime * result + states.indexOf(currentState);
 		for (State state : states) {
 			result = prime * result + state.stateAction().hashCode();
 			for (Transition transition : state.getTransitions()) {
@@ -336,7 +337,12 @@ public class DPDA implements Agent, RepeatedStrategy {
 		if (!(obj instanceof DPDA)) {
 			return false;
 		}
+
 		DPDA other = (DPDA) obj;
+		if (hashCode() == other.hashCode()) {
+			return true;
+		}
+		// TODO: Clean up this comparison
 		if (currentState == null) {
 			if (other.currentState != null) {
 				return false;

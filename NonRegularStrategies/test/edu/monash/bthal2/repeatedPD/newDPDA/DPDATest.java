@@ -11,7 +11,7 @@ public class DPDATest {
 
 	@Test
 	public void testParsing() {
-		DPDA dpda = DPDAFactory.tft();
+		DPDA dpda = DPDAFactory.ExampleStrategies.tft();
 		DPDA parseddpda = new DPDA(dpda.toString());
 		System.out.println(dpda.toString());
 		System.out.println(parseddpda.toString());
@@ -31,11 +31,11 @@ public class DPDATest {
 		// System.out.println(dpda);
 	}
 
-	// @Test
+	@Test
 	public void testCopyDPDA() {
 		// A copy of a DPDA should have the same hash as a DPDA
-		DPDA dpda = randomDPDA();
-
+		//DPDA dpda = randomDPDA();
+		DPDA dpda = (DPDA) DPDAFactory.ExampleStrategies.allD();
 		System.out.println("Hash Original: " + dpda.hashCode());
 		DPDA copy = dpda.copyDPDA();
 		System.out.println("Hash Original: " + dpda.hashCode());

@@ -7,7 +7,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
 import edu.monash.bthal2.repeatedPD.Simulation.DPDAPayoffSimulation;
-import edu.monash.bthal2.repeatedPD.Simulation.newDPDATimeSeriesSimulation;
+import edu.monash.bthal2.repeatedPD.Simulation.DPDATimeSeriesSimulation;
 
 /**
  * Initializing class for running as jar
@@ -55,10 +55,10 @@ public class App {
 			break;
 		case TIMESERIES:
 			if (showJson) {
-				System.out.println(newDPDATimeSeriesSimulation.exampleJson());
+				System.out.println(DPDATimeSeriesSimulation.exampleJson());
 
 			} else {
-				newDPDATimeSeriesSimulation.runApp(app.file, neutralPopulation);
+				DPDATimeSeriesSimulation.runApp(app.file, false); //Not neutral
 			}
 			break;
 		default:
