@@ -77,7 +77,7 @@ public class DPDATest {
 		DPDAMutator mutator = new DPDAMutator();
 		mutator.addState(dpda);
 		// Mutate 100 times, to generate a random machine
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10000; i++) {
 			mutator.mutate(dpda);
 		}
 		return dpda;
