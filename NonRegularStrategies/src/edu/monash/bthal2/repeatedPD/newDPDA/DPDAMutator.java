@@ -37,7 +37,9 @@ public class DPDAMutator implements AgentMutator {
 	}
 
 	public Agent mutate(Agent arg0) {
-		// Copy?
+		// Copy
+		DPDA copy = ((DPDA) arg0).copyDPDA();
+		
 
 		// Build a mutation chain
 		ArrayList<MutationEvent> mutationChain = buildMutationChain(((DPDA) arg0)
@@ -46,19 +48,19 @@ public class DPDAMutator implements AgentMutator {
 		for (MutationEvent mutation : mutationChain) {
 			switch (mutation) {
 			case ADD:
-				addState((DPDA) arg0);
+				addState((DPDA) copy);
 				break;
 			case CHANGE:
-				change((DPDA) arg0);
+				change((DPDA) copy);
 				break;
 			case REMOVE:
-				removeState((DPDA) arg0);
+				removeState((DPDA) copy);
 				break;
 			default:
 				break;
 			}
 		}
-		return arg0;
+		return copy;
 	}
 
 	public void generateRandomTransitions(DPDA dpda, State state) {

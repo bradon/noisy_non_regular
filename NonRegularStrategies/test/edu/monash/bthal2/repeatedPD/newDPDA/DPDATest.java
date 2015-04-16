@@ -9,7 +9,7 @@ import com.evolutionandgames.repeatedgames.evolution.Action;
 
 public class DPDATest {
 
-	@Test
+	//@Test
 	public void testParsing() {
 		DPDA dpda = DPDAFactory.ExampleStrategies.tft();
 		DPDA parseddpda = new DPDA(dpda.toString());
@@ -34,16 +34,16 @@ public class DPDATest {
 	@Test
 	public void testCopyDPDA() {
 		// A copy of a DPDA should have the same hash as a DPDA
-		//DPDA dpda = randomDPDA();
-		DPDA dpda = (DPDA) DPDAFactory.ExampleStrategies.allD();
+		DPDA dpda = randomDPDA();
+//		/DPDA dpda = (DPDA) DPDAFactory.ExampleStrategies.allD();
 		System.out.println("Hash Original: " + dpda.hashCode());
 		DPDA copy = dpda.copyDPDA();
 		System.out.println("Hash Original: " + dpda.hashCode());
 		System.out.println("Copy Hash " + copy.hashCode());
 		System.out.println("Original :");
-		System.out.println(dpda.printTable());
+		System.out.println(dpda.toString());
 		System.out.println("Copy :");
-		System.out.println(dpda.printTable());
+		System.out.println(dpda.toString());
 		System.out.println("Size :" + copy.getStates().size());
 		assertTrue(dpda.hashCode() == copy.hashCode());
 
